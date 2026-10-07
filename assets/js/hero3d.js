@@ -16,6 +16,7 @@ function webgl() {
 }
 
 function ready() {
+  d.classList.remove('no-3d'); // l’appareil arrive après l’image de repli : il la remplace
   d.classList.add('cam-ready');
   window.dispatchEvent(new CustomEvent('hk:cam-ready'));
 }
@@ -28,7 +29,7 @@ function load() {
     return (loading = Promise.resolve(null));
   }
   const base = d.dataset.base || '';
-  loading = import('./camera3d.js?v=fc84a56ef3').then(async ({ createCamera3D }) => {
+  loading = import('./camera3d.js?v=52b0259ba2').then(async ({ createCamera3D }) => {
     const api = await createCamera3D(stage, {
       screenSrc: base + '/assets/img/hero-albertine-560.webp',
       wordmarkSrc: base + '/assets/img/camera-wordmark.svg',
