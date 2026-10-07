@@ -265,8 +265,8 @@ function studioEnvironment(renderer) {
   };
   panel(10, 5, 0xffffff, 2.6, [0, 11, 1]);             // grande boîte à lumière au-dessus
   panel(14, 5, 0xffffff, 0.8, [0, 7, 10]);              // grand dégradé avant-haut : reflet sur le capot
-  panel(2.4, 13, 0xfff7ee, 4.6, [-10.5, 1, 3]);        // strip vertical à gauche
-  panel(1.8, 11, 0xeef2ff, 3.4, [10.5, 2, 1]);         // strip froid à droite
+  panel(2.4, 13, 0xfff7ee, 3.6, [-10.5, 1, 3]);        // strip vertical à gauche
+  panel(1.8, 11, 0xeef2ff, 2.7, [10.5, 2, 1]);         // strip froid à droite
   panel(9, 1.4, 0xffe2a8, 3.2, [0, 3.5, -11]);         // liseré doré en contre-jour
   panel(3.5, 9, 0xffe7bd, 2.2, [-8, 1, -8]);           // contre-jour doré latéral
   panel(3.5, 9, 0xffffff, 1.8, [8, 1, -8]);
@@ -830,9 +830,11 @@ export async function createCamera3D(container, options) {
       const from = { yaw: pose.yaw + pointer.x * 0.28, pitch: pose.pitch + pointer.y * 0.12, roll: pose.roll, bob: pose.bob, dist: pose.dist };
       // il continue de tourner dans le même sens jusqu’à regarder le visiteur
       let to = Math.ceil(from.yaw / TAU) * TAU;
-      if (to - from.yaw < 1.1) to += TAU;
+      if (to - from.yaw < 0.6) to += TAU;
       const near = nearDist();
-      const TURN = 1250, AF = 700, PRESS = 1180, FIRE = 1300;
+      // la durée suit l’angle restant : le tour reste doux, quel que soit le moment du geste
+      const TURN = Math.round((0.9 + (to - from.yaw) * 0.28) * 1000);
+      const FIRE = TURN + 60, PRESS = FIRE - 120, AF = FIRE - 600;
       const T = TURN / 1000;
       // Hermite : départ à la vitesse de rotation du repos, arrivée immobile
       const v0 = mode === 'idle' ? opts.idleSpeed : 0;
@@ -852,7 +854,7 @@ export async function createCamera3D(container, options) {
         pose.pitch = lerp(from.pitch, 0, out3(k));
         pose.roll = lerp(from.roll, 0, k);
         pose.lift = out3(k);
-        const z = inOut(clamp((t - 200) / (FIRE - 200), 0, 1));
+        const z = inOut(clamp((t - FIRE * 0.18) / (FIRE * 0.82), 0, 1));
         pose.bob = lerp(from.bob, 0, z);
         pose.dist = lerp(from.dist, near, z);
         pose.center = z;
@@ -861,7 +863,7 @@ export async function createCamera3D(container, options) {
         cam.lamp.material.emissiveIntensity = af ? 2.4 + Math.sin(t / 30) * 0.8 : 0.05;
         cam.focusRing.rotation.y = focus0 + Math.sin(clamp((t - AF) / 380, 0, 1) * Math.PI) * 0.16 + clamp((t - AF) / 380, 0, 1) * 0.05;
         if (!beeped && t >= AF + 330) { beeped = true; window.dispatchEvent(new CustomEvent('hk:focus')); }
-        cam.setIris(lerp(0.44, 0.1, inOut(clamp((t - 980) / 300, 0, 1))));
+        cam.setIris(lerp(0.44, 0.1, inOut(clamp((t - (FIRE - 320)) / 300, 0, 1))));
         const p = clamp((t - PRESS + 70) / 70, 0, 1) - clamp((t - PRESS - 70) / 160, 0, 1);
         cam.shutter.position.y = 0.04 - 0.04 * p;
         if (!pressed && t >= PRESS) { pressed = true; window.dispatchEvent(new CustomEvent('hk:press')); }

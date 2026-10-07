@@ -717,3 +717,10 @@ html.reduced .marquee { overflow-x: auto; }
   body { background: #fff; }
   html.js [data-reveal], html.js [data-hero-in] { opacity: 1 !important; transform: none !important; }
 }
+
+/* Indication de l’intro selon l’appareil (souris ou écran tactile) */
+.hint-touch { display: none; }
+@media (hover: none) {
+  .hint-fine, .intro__mouse { display: none; }
+  .hint-touch { display: inline; }
+}

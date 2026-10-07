@@ -239,7 +239,7 @@
     const cam = window.__hkCam;
     // (filet de sécurité : si l’onglet ne dessine plus, le flash part quand même)
     const ready = cam && !cam.busy
-      ? Promise.race([cam.shoot().catch(() => stageCenter()), new Promise((r) => setTimeout(() => r(stageCenter()), 2600))])
+      ? Promise.race([cam.shoot().catch(() => stageCenter()), new Promise((r) => setTimeout(() => r(stageCenter()), 4200))])
       : new Promise((r) => setTimeout(() => r(stageCenter()), 420));
     ready.then((lens) => {
       if (!introOn) { shooting = false; return; }
