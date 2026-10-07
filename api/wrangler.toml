@@ -1,0 +1,16 @@
+# API du formulaire de devis Hani Kanaftchian — Cloudflare Workers
+# Déploiement : npx wrangler deploy   (puis : npx wrangler secret put RESEND_API_KEY)
+name = "kanaftchian-contact"
+main = "contact-worker.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://michprk.github.io,https://www.kanaftchian.com,https://kanaftchian.com"
+STUDIO_EMAIL = "hani@kanaftchian.com"
+FROM_EMAIL = "Hani Kanaftchian <site@kanaftchian.com>"
+
+# Limite anti-spam par adresse IP (facultatif) :
+# npx wrangler kv namespace create RATE_LIMIT  puis décommenter avec l’identifiant obtenu
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "…"

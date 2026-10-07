@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://michprk.github.io/kanaftchian.com/</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image><image:loc>https://michprk.github.io/kanaftchian.com/assets/img/hero-albertine-853.webp</image:loc></image:image>
+    <image:image><image:loc>https://michprk.github.io/kanaftchian.com/assets/img/srv-dirigeants-900.webp</image:loc></image:image>
+    <image:image><image:loc>https://michprk.github.io/kanaftchian.com/assets/img/srv-evenements-900.webp</image:loc></image:image>
+    <image:image><image:loc>https://michprk.github.io/kanaftchian.com/assets/img/hani-960.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://michprk.github.io/kanaftchian.com/confidentialite.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://michprk.github.io/kanaftchian.com/cgu.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>

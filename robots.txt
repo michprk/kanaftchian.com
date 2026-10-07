@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /kanaftchian.com/partials/
+Disallow: /kanaftchian.com/scripts/
+Disallow: /kanaftchian.com/api/
+
+Sitemap: https://michprk.github.io/kanaftchian.com/sitemap.xml

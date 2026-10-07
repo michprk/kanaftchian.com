@@ -1,0 +1,71 @@
+# ==========================================================================
+# Hani Kanaftchian — configuration serveur Apache / LiteSpeed (Hostinger, OVH, one.com…)
+# À utiliser quand le site est hébergé à la racine du nom de domaine (www.kanaftchian.com).
+# ==========================================================================
+
+# 1. Forcer le HTTPS
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Formulaire : /api/contact → api/contact.php (hébergement avec PHP)
+  RewriteRule ^api/contact/?$ api/contact.php [L]
+
+  # 2. Les adresses de l’ancien site mènent à la bonne section (référencement conservé)
+  RewriteRule ^(en|nl|de|es|it)(/.*)?$ / [R=301,L]
+  RewriteRule ^(photographe-corporate|photographe-studio-bruxelles|portrait|studio|offre-decouverte-portrait)/?$ /#prestations [R=301,NE,L]
+  RewriteRule ^(photographe-evenement|photographe-soiree|photo-sportive)/?$ /#prestations [R=301,NE,L]
+  RewriteRule ^(photographe-immobilier|visite-virtuelle-360)/?$ /#prestations [R=301,NE,L]
+  RewriteRule ^(tarifs-photographe|bon-cadeau)/?$ /#tarifs [R=301,NE,L]
+  RewriteRule ^(portfolio|paysages|photographe-portrait|photographe-mariage|mariage|photographe-couple|photographe-grossesse|seance-photo-de-famille)/?$ /#realisations [R=301,NE,L]
+  RewriteRule ^(references|presse-collaborations|press-and-collaborations)/?$ /#presse [R=301,NE,L]
+  RewriteRule ^(a-propos|charte-deontologie|studio-photo-bruxelles|visite-studio-photo-belgique|photographe-uccle|photographe-ixelles|photographe-schaerbeek|photographe-woluwe-saint-pierre)/?$ /#studio [R=301,NE,L]
+  RewriteRule ^(avis-clients-google)/?$ /#avis [R=301,NE,L]
+  RewriteRule ^(faq|journal)(/.*)?$ /#faq [R=301,NE,L]
+  RewriteRule ^(contact|reservation-shooting-photo)/?$ /#contact [R=301,NE,L]
+  RewriteRule ^(mentions-legales|cgv|empreinte-carbone)/?$ /cgu.html [R=301,L]
+  RewriteRule ^(politique-confidentialite|politique-cookies)/?$ /confidentialite.html [R=301,L]
+
+  # Les blocs communs et scripts de construction n’ont rien à faire en ligne
+  RewriteRule ^(partials|scripts)(/|$) - [F,L]
+</IfModule>
+
+# 3. Page 404 personnalisée
+ErrorDocument 404 /404.html
+
+# 4. En-têtes de sécurité
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-EPP9/1LonizMOR8yuj8e4LLvhRATnCZQyJuJ5F8NYYE=' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.workers.dev; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+</IfModule>
+
+# 5. Cache : longues durées pour les fichiers qui changent rarement (CSS/JS versionnés ?v=…)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 6 months"
+</IfModule>
+
+# 6. Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript image/svg+xml application/manifest+json application/xml text/plain
+</IfModule>
+
+AddType application/manifest+json .webmanifest
+AddType font/woff2 .woff2
+AddType image/webp .webp
+AddType text/javascript .js .mjs

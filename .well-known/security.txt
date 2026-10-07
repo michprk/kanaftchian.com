@@ -1,0 +1,4 @@
+Contact: mailto:hani@kanaftchian.com
+Expires: 2027-10-07T00:00:00.000Z
+Preferred-Languages: fr, en
+Canonical: https://michprk.github.io/kanaftchian.com/.well-known/security.txt
