@@ -28,7 +28,7 @@ function load() {
     return (loading = Promise.resolve(null));
   }
   const base = d.dataset.base || '';
-  loading = import('./camera3d.js?v=4771b3f172').then(async ({ createCamera3D }) => {
+  loading = import('./camera3d.js?v=d4d3be022b').then(async ({ createCamera3D }) => {
     const api = await createCamera3D(stage, {
       screenSrc: base + '/assets/img/hero-albertine-560.webp',
       wordmarkSrc: base + '/assets/img/camera-wordmark.svg',
